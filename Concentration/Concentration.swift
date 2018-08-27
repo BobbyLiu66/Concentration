@@ -52,6 +52,9 @@ class Concentration{
     
     init (numberOfPairsOfCards: Int){
         assert(numberOfPairsOfCards > 0,"init(\(numberOfPairsOfCards)")
+        //TODO: reset card idetifier
+        let resetCard = Card()
+        resetCard.resetIdentifier()
         for _ in 1...numberOfPairsOfCards{
             let card = Card()
             cards += [card, card]

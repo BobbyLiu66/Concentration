@@ -37,6 +37,22 @@ class ViewController: UIViewController {
         
     }
     
+    @IBAction func resetToOriginalState(_ sender: UIButton) {
+        resetModel()
+    }
+    
+    private func resetModel(){
+        flipCount = 0
+        for index in cardButtons.indices{
+            let button = cardButtons[index]
+            button.setTitle("", for: UIControlState.normal)
+            button.backgroundColor = #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1)
+        }
+        
+        game = Concentration(numberOfPairsOfCards: numberOfPairsOfCards)
+    }
+    
+    
     private func updateViewFromModel(){
         for index in cardButtons.indices{
             let button = cardButtons[index]
