@@ -52,25 +52,19 @@ struct Concentration{
     
     init (numberOfPairsOfCards: Int){
         assert(numberOfPairsOfCards > 0,"init(\(numberOfPairsOfCards)")
-        //TODO: reset card idetifier
+
         let resetCard = Card()
         resetCard.resetIdentifier()
         for _ in 1...numberOfPairsOfCards{
             let card = Card()
             cards += [card, card]
         }
-        //TODO: shuffle the card
         var shuffled = [Card]();
-        
         for _ in cards.indices{
-            
             let rand = Int(arc4random_uniform(UInt32(cards.count)))
-            
             shuffled.append(cards[rand])
-            
             cards.remove(at: rand)
         }
         cards = shuffled
-
     }
 }

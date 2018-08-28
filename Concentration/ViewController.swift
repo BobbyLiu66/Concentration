@@ -16,6 +16,8 @@ class ViewController: UIViewController {
             return (cardButtons.count + 1) / 2
     }
     
+    var seenEmoji = Set<String>()
+    
     
     private(set) var flipCount: Int = 0 {
         didSet {
@@ -41,6 +43,7 @@ class ViewController: UIViewController {
         if let cardNumber = cardButtons.index(of: sender) {
             game.chooseCard(at: cardNumber)
             updateViewFromModel()
+            print(seenEmoji)
         }
         
     }
@@ -52,6 +55,7 @@ class ViewController: UIViewController {
     private func resetModel(){
         flipCount = 0
         scoreCount = 0
+        seenEmoji.removeAll()
         for index in cardButtons.indices{
             let button = cardButtons[index]
             button.setTitle("", for: UIControlState.normal)
@@ -62,18 +66,50 @@ class ViewController: UIViewController {
     
     
     private func updateViewFromModel(){
+        var flagOfFacedUp = false
+        var numberOfFacedUp : [Int] = []
         for index in cardButtons.indices{
             let button = cardButtons[index]
             let card = game.cards[index]
-            print(card.isFaceUp)
+
             if card.isFaceUp {
+                //TODO: need test score system
+                numberOfFacedUp.append(index)
+                flagOfFacedUp = card.isMatched
+                seenEmoji.insert(emoji(for: card))
+                
                 button.setTitle(emoji(for: card), for: UIControlState.normal)
                 button.backgroundColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
             } else {
                 button.setTitle("", for: UIControlState.normal)
-                button.backgroundColor = card.isMatched ?#colorLiteral(red: 1, green: 1, blue: 1, alpha: 0):#colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1)
+                button.backgroundColor = card.isMatched ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0):#colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1)
             }
         }
+        print(flagOfFacedUp)
+        if numberOfFacedUp.count == 2{
+            if flagOfFacedUp{
+                
+                seenEmoji.remove(emoji(for: game.cards[numberOfFacedUp.first!]))
+                scoreCount += 2
+                
+            }
+            else{
+                //TODO get card emoji
+//                if numberOfFacedUp.last != nil{
+//                    if seenEmoji.contains(emoji(for: game.cards[numberOfFacedUp.last!])) {
+//                        scoreCount -= 1
+//                    }
+//                }
+            }
+        }
+        
+//        if flagOfFacedUp {
+//            scoreCount += 2
+//        }
+//        else if numberOfFacedUp == 2 {
+//            //TODO: check emoji seen list
+//
+//        }
     }
     
     
