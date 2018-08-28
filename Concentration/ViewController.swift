@@ -19,12 +19,20 @@ class ViewController: UIViewController {
     
     private(set) var flipCount: Int = 0 {
         didSet {
-            flipCountLabel.text = "Flip: \(flipCount)"
+            flipCountLabel.text = "Flip:\(flipCount)"
+        }
+    }
+    
+    private(set) var scoreCount: Int = 0 {
+        didSet{
+            scoreLabel.text = "Score:\(scoreCount)"
         }
     }
     
 
     @IBOutlet private weak var flipCountLabel: UILabel!
+    
+    @IBOutlet private weak var scoreLabel: UILabel!
     
     @IBOutlet private var cardButtons: [UIButton]!
     
@@ -43,12 +51,12 @@ class ViewController: UIViewController {
     
     private func resetModel(){
         flipCount = 0
+        scoreCount = 0
         for index in cardButtons.indices{
             let button = cardButtons[index]
             button.setTitle("", for: UIControlState.normal)
             button.backgroundColor = #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1)
         }
-        
         game = Concentration(numberOfPairsOfCards: numberOfPairsOfCards)
     }
     
@@ -57,6 +65,7 @@ class ViewController: UIViewController {
         for index in cardButtons.indices{
             let button = cardButtons[index]
             let card = game.cards[index]
+            print(card.isFaceUp)
             if card.isFaceUp {
                 button.setTitle(emoji(for: card), for: UIControlState.normal)
                 button.backgroundColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
