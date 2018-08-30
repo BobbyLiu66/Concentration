@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ConcentrationViewController: UIViewController {
     
     private lazy var game: Concentration = Concentration(numberOfPairsOfCards: numberOfPairsOfCards)
     
@@ -28,7 +28,7 @@ class ViewController: UIViewController {
     private func updateFlipCountLabel (){
         let attributes: [NSAttributedStringKey:Any] = [
             .strokeWidth : 5.0,
-            .strokeColor : UIColor.orange
+            .strokeColor : UIColor.black
         ]
         let attributedString = NSAttributedString(string: "Flip:\(flipCount)", attributes: attributes)
         flipCountLabel.attributedText = attributedString
@@ -55,7 +55,7 @@ class ViewController: UIViewController {
         //TODO: touch the card witch has already paired should be ignored 
         flipCount += 1
         if let cardNumber = cardButtons.index(of: sender) {
-            print(cardNumber)
+
             game.chooseCard(at: cardNumber)
             updateViewFromModel()
         }
@@ -72,51 +72,62 @@ class ViewController: UIViewController {
         for index in cardButtons.indices{
             let button = cardButtons[index]
             button.setTitle("", for: UIControlState.normal)
-            button.backgroundColor = #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1)
+            button.backgroundColor = #colorLiteral(red: 0.01680417731, green: 0.1983509958, blue: 1, alpha: 1)
         }
         game = Concentration(numberOfPairsOfCards: numberOfPairsOfCards)
     }
     
     
     private func updateViewFromModel(){
-        var flagOfFacedUp = false
-        var numberOfFacedUp : [Int] = []
-        for index in cardButtons.indices{
-            let button = cardButtons[index]
-            let card = game.cards[index]
-
-            if card.isFaceUp {
-
-                numberOfFacedUp.append(index)
-                flagOfFacedUp = card.isMatched
-                seenEmoji.insert(emoji(for: card))
+        if cardButtons != nil {
+            var flagOfFacedUp = false
+            var numberOfFacedUp : [Int] = []
+            for index in cardButtons.indices{
+                let button = cardButtons[index]
+                let card = game.cards[index]
                 
-                button.setTitle(emoji(for: card), for: UIControlState.normal)
-                button.backgroundColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
-            } else {
-                button.setTitle("", for: UIControlState.normal)
-                button.backgroundColor = card.isMatched ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0):#colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1)
+                if card.isFaceUp {
+                    
+                    numberOfFacedUp.append(index)
+                    flagOfFacedUp = card.isMatched
+                    seenEmoji.insert(emoji(for: card))
+                    
+                    button.setTitle(emoji(for: card), for: UIControlState.normal)
+                    button.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+                } else {
+                    button.setTitle("", for: UIControlState.normal)
+                    button.backgroundColor = card.isMatched ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0):#colorLiteral(red: 0.01680417731, green: 0.1983509958, blue: 1, alpha: 1)
+                }
             }
-        }
-
-        if numberOfFacedUp.count == 2{
-            //TODO: rest last two click black area get score
-            if flagOfFacedUp{
-                
-                seenEmoji.remove(emoji(for: game.cards[numberOfFacedUp.first!]))
-                scoreCount += 2
-                
-            }
-            else{
-                //TODO penalty score
-//                if numberOfFacedUp.last != nil{
-//                    if seenEmoji.contains(emoji(for: game.cards[numberOfFacedUp.last!])) {
-//                        scoreCount -= 1
-//                    }
-//                }
+            
+            if numberOfFacedUp.count == 2{
+                //TODO: rest last two click black area get score
+                if flagOfFacedUp{
+                    
+                    seenEmoji.remove(emoji(for: game.cards[numberOfFacedUp.first!]))
+                    scoreCount += 2
+                    
+                }
+                else{
+                    //TODO penalty score
+                    //                if numberOfFacedUp.last != nil{
+                    //                    if seenEmoji.contains(emoji(for: game.cards[numberOfFacedUp.last!])) {
+                    //                        scoreCount -= 1
+                    //                    }
+                    //                }
+                }
             }
         }
     }
+    
+    var theme: String? {
+        didSet{
+            emojiChoices = theme ?? ""
+            emoji = [:]
+            updateViewFromModel()
+        }
+    }
+    
     
     
     private var emojiChoices = "⚽️👻🎃🚒🐶⭐️🍎"
