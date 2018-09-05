@@ -69,13 +69,12 @@
 		3AB015AD2132678B00D2F0FF /* Concentration */ = {
 			isa = PBXGroup;
 			children = (
+				3AC360E72140995700C9675A /* Model */,
 				3A4AB3852134AFFB009F97D5 /* Concentration.entitlements */,
 				3AB015C0213267C600D2F0FF /* Supporting file */,
 				3AB015B02132678B00D2F0FF /* ConcentrationViewController.swift */,
 				3A26E95F21374F4B009F3DC8 /* ConcentrationThemeChooserViewController.swift */,
 				3AB015B22132678B00D2F0FF /* Main.storyboard */,
-				3ABE73F721335C5A003EC7D6 /* Concentration.swift */,
-				3ABE73F921335D16003EC7D6 /* Card.swift */,
 				3AB015BA2132678D00D2F0FF /* Info.plist */,
 			);
 			path = Concentration;
@@ -89,6 +88,15 @@
 				3AB015B72132678D00D2F0FF /* LaunchScreen.storyboard */,
 			);
 			path = "Supporting file";
+			sourceTree = "<group>";
+		};
+		3AC360E72140995700C9675A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3ABE73F921335D16003EC7D6 /* Card.swift */,
+				3ABE73F721335C5A003EC7D6 /* Concentration.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
